@@ -1,0 +1,11 @@
+# Build output
+build/
+*.o
+*.obj
+*.exe
+
+# VS Code
+.vscode/
+
+# Misc
+.DS_Store
