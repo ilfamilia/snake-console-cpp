@@ -18,13 +18,13 @@ void Snake::resetPos(int posX, int posY) {
 }
 
 // Returns the current position of the snake.
-Snake::Point Snake::getPos() const {
+Point Snake::getPos() const {
     return pos_;
 }
 
 // Returns the previous position of the snake.
 // Useful for erasing the snake's last position from the screen.
-Snake::Point Snake::getOldPos() const {
+Point Snake::getOldPos() const {
     return oldPos_;
 }
 

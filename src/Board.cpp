@@ -33,6 +33,6 @@ bool Board::isInsidePlayable(int x, int y) const {
 // Returns the logical center of the board.
 // Integer division is used, which is appropriate for grid-based games
 // (e.g., a 30x15 board will return {15, 7}).
-Board::Point Board::center() const {
+Point Board::center() const {
     return Point{ width_ / 2, height_ / 2 };
 }

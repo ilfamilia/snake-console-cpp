@@ -1,5 +1,6 @@
 #include "Board.h"
 #include "Snake.h"
+#include "Food.h"
 #include "Renderer.h"
 #include "Config.h"
 #include <conio.h>
@@ -15,6 +16,8 @@ int main()
     // Initialize the snake at the logical center of the board
     Snake mySnake(gameBoard.center().x, gameBoard.center().y);
 
+    Food gameFood(10, 8);
+
     // Renderer responsible for all console drawing
     Renderer gameDisplay;
 
@@ -27,6 +30,12 @@ int main()
         mySnake.getPos().x,
         mySnake.getPos().y,
         PLAYER_CHAR
+    );
+
+    gameDisplay.drawChar(
+        gameFood.getPos().x,
+        gameFood.getPos().y,
+        FOOD_CHAR
     );
 
     // Main game loop (runs indefinitely)
@@ -46,7 +55,7 @@ int main()
         }
 
         // Get the current snake position
-        const Snake::Point pos = mySnake.getPos();
+        const Point pos = mySnake.getPos();
 
         // Predict the next position based on input
         int newX = pos.x;
@@ -70,7 +79,7 @@ int main()
             );
 
             // Draw the snake at the reset position
-            const Snake::Point centerPos = mySnake.getPos();
+            const Point centerPos = mySnake.getPos();
             gameDisplay.drawChar(
                 centerPos.x,
                 centerPos.y,
@@ -88,8 +97,8 @@ int main()
         else                 mySnake.moveRight();
 
         // Retrieve old and current positions for rendering
-        const Snake::Point oldPos = mySnake.getOldPos();
-        const Snake::Point curPos = mySnake.getPos();
+        const Point oldPos = mySnake.getOldPos();
+        const Point curPos = mySnake.getPos();
 
         // Clear the previous snake position
         gameDisplay.clearCell(oldPos.x, oldPos.y);

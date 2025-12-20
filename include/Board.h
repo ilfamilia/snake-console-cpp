@@ -1,16 +1,12 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include "Point.h"
+
 // Represents the game board dimensions and helper utilities
 // to validate positions (walls vs playable area) and find key points.
 class Board {
 public:
-    // Simple 2D coordinate type used across the game to represent positions.
-    struct Point {
-        int x;
-        int y;
-    };
-
     // Constructs a board with the given dimensions.
     // width  = number of columns
     // height = number of rows

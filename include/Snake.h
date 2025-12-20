@@ -1,17 +1,13 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
+#include "Point.h"
+
 // Represents the snake entity in the game.
 // At this stage, the snake is modeled as a single segment with
 // its current position and previous position.
 class Snake {
 public:
-    // Simple 2D coordinate structure used to track the snake position.
-    struct Point {
-        int x;
-        int y;
-    };
-
     // Creates a snake at the given initial position.
     Snake(int posX, int posY);
 
