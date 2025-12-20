@@ -1,104 +1,118 @@
 # Snake Game (Console – C++)
 
-## Project Status  
-### Early Development / Initial Commit
+## Project Status
+### Early Development / Work in Progress
 
-This repository contains an early version of a console-based **Snake game** written in **C++**.  
-This is **not the final version** of the project.
+This repository contains a console-based **Snake game** written in **C++**.
+It is currently under development and **not a final version**.
 
-The purpose of this commit is to document the **first significant milestone**:  
-the creation of a playable board and a controllable character that moves within it.
+The project is built incrementally to document:
+- architecture decisions
+- refactoring steps
+- feature evolution over time
 
----
 
 ## Current Features
 
 At this stage, the project includes:
 
-- A configurable game board rendered in the Windows console  
-- Visible borders (walls) that define the playable area  
-- A player character rendered on the board  
-- Keyboard-controlled movement using:
-  - **W** → Up  
-  - **A** → Left  
-  - **S** → Down  
-  - **D** → Right  
-- Wall collision detection  
-- Automatic reset of the player position when a wall is hit  
-- Clean rendering using cursor positioning (no full-screen redraw per frame)
+- A configurable game board rendered in the Windows console
+- Visible borders (walls) that define the playable area
+- Snake head movement controlled with:
+  - **W** → Up
+  - **A** → Left
+  - **S** → Down
+  - **D** → Right
+- Wall collision detection
+- Automatic reset when a wall is hit
+- Food entity rendered on the board (currently static)
+- Clean rendering using cursor positioning to update only necessary cells.
+- Modular multi-file project structure
+- Build configuration using **CMake**
 
-This version focuses on **core structure and movement mechanics rather than full gameplay**.
+This version focuses on **core structure, rendering, and movement mechanics** rather than full gameplay.
 
----
 
 ## Project Structure
 
-The project is organized using clear separation of responsibilities:
+```text
+snake-console-cpp/
+├── CMakeLists.txt
+├── include/
+│   ├── Board.h
+│   ├── Config.h
+│   ├── Food.h
+│   ├── Point.h
+│   ├── Renderer.h
+│   └── Snake.h
+├── src/
+│   ├── Board.cpp
+│   ├── Food.cpp
+│   ├── main.cpp
+│   ├── Renderer.cpp
+│   └── Snake.cpp
+├── .gitignore
+└── README.md
+```
 
-- **Board**  
-  Handles board dimensions, walls, and playable area logic.
+## Modules
 
-- **Snake**  
-  Manages the player position and movement.
+- **Board**
+Handles board dimensions and wall logic.
 
-- **Renderer**  
-  Responsible for all console rendering and cursor control.
+- **Snake**
+Manages the snake position and movement.
 
-- **Config**  
-  Centralized configuration for board size and rendering characters.
+- **Renderer**
+Provides console drawing utilities such as cursor positioning, drawing the board borders, clearing cells, and hiding/showing the cursor.
 
-This structure is intentionally designed to allow **easy extension** in future versions.
+- **Food**
+Represents the food entity and its position on the board (currently static).
 
----
+- **Point**
+Centralized 2D coordinate structure reused across the project.
+
+- **Config**
+Centralized configuration for board size, symbols, and constants.
 
 ## Technologies Used
 
-- **C++ (C++17+)**
-- Windows Console API (`windows.h`)
-- `_kbhit()` and `_getch()` for non-blocking keyboard input
+- C++ (C++17+)
+- Windows Console API (windows.h)
+- _kbhit() and _getch() for non-blocking keyboard input
+- CMake for build configuration
 
->**Note:** This project is currently **Windows-only** due to console-specific APIs.
-
----
+**Note:** This project is currently Windows-only due to console-specific APIs.
 
 ## Planned Features (Future Work)
 
-The following features are planned for future commits:
+- Food respawn logic
+- Snake body growth
+- Score tracking
+- Game-over state
+- Game speed control (timing / game loop)
+- Proper exit handling
+- Cross-platform rendering (long-term goal)
 
-- Snake body growth  
-- Food generation  
-- Score tracking  
-- Game-over state  
-- Game speed control (timing / game loop)  
-- Proper exit handling  
-- Cross-platform rendering (possible future goal)
+## How to Build and Run
+**Requirements**
 
-Each major improvement will be committed incrementally to reflect learning progress.
+- Windows
+- CMake 3.16+
+- A C++ compiler (MSVC or MinGW)
 
----
+## Build
+```bash
+cmake -S . -B build
+cmake --build build
+```
+## Run
+```bash
+./build/snake
+```
 
-## Purpose of This Repository
-
-This project is part of my **learning process in C++ and game development fundamentals**.  
-Commits are intentionally incremental to reflect:
-
-- Design decisions  
-- Refactoring steps  
-- Feature evolution over time  
-
-This repository serves both as a **portfolio project** and a **personal learning log**.
-
----
-
-## How to Run
-
-1. Clone the repository  
-2. Compile using a C++ compiler on Windows (e.g. **MSVC** or **MinGW**)  
-3. Run the executable in a Windows console  
-4. Use **W, A, S, D** to move the character  
-
----
+(On Windows, the executable may be snake.exe depending on the generator.)
 
 ## License
 
-This project is for **educational purposes**.
+This project is for educational purposes and personal learning.
