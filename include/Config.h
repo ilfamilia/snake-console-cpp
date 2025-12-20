@@ -21,6 +21,8 @@ namespace Config {
     // Character used to represent the player (snake head)
     inline constexpr char PLAYER_CHAR = '@';
 
+    // Character used to represent the food
+    inline constexpr char FOOD_CHAR = 'f';
 }
 
 #endif // CONFIG_H
