@@ -1,11 +1,23 @@
-# Build output
+# ===== Build output =====
 build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+*.cmake
+
+# ===== Compiled files =====
 *.o
 *.obj
 *.exe
+*.out
+*.dll
+*.so
+*.a
 
-# VS Code
+# ===== VS Code =====
 .vscode/
 
-# Misc
+# ===== OS / Misc =====
 .DS_Store
+Thumbs.db
