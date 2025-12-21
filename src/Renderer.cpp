@@ -14,44 +14,49 @@ void Renderer::drawBoard(const Board& board) const {
     const int w = board.getWidth();
     const int h = board.getHeight();
 
+    Point pos;
+    pos.x = 0;
+    pos.y = 0;
+
     // Iterate over every cell in the board grid
     for (int y = 0; y < h; ++y) {
+        pos.y = y;
         for (int x = 0; x < w; ++x) {
-
+            pos.x = x;
             // Skip non-wall cells to avoid unnecessary drawing
-            if (!board.isWall(x, y)) {
+            if (!board.isWall(pos.x, pos.y)) {
                 // drawChar(x, y, Config::EMPTY_CHAR);
                 continue;
             }
 
             // Determine which side of the board the cell belongs to
-            const bool left   = (x == 0);
-            const bool right  = (x == w - 1);
-            const bool top    = (y == 0);
-            const bool bottom = (y == h - 1);
+            const bool left   = (pos.x == 0);
+            const bool right  = (pos.x == w - 1);
+            const bool top    = (pos.y == 0);
+            const bool bottom = (pos.y == h - 1);
 
             // A corner is where a horizontal and vertical wall meet
             const bool isCorner = (left || right) && (top || bottom);
 
             // Select the appropriate character based on the wall type
             if (isCorner) {
-                drawChar(x, y, Config::CORNER_CHAR);
+                drawChar(pos, Config::CORNER_CHAR);
             } else if (top || bottom) {
-                drawChar(x, y, Config::HORIZONTAL_CHAR);
+                drawChar(pos, Config::HORIZONTAL_CHAR);
             } else {
-                drawChar(x, y, Config::VERTICAL_CHAR);
+                drawChar(pos, Config::VERTICAL_CHAR);
             }
         }
     }
 }
 
 // Draws a single character at the specified console coordinates.
-void Renderer::drawChar(int x, int y, char ch) const {
+void Renderer::drawChar(Point chPos, char ch) const {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
 
     COORD pos;
-    pos.X = x;
-    pos.Y = y;
+    pos.X = chPos.x;
+    pos.Y = chPos.y;
 
     // Move the cursor and print the character
     SetConsoleCursorPosition(hCon, pos);
@@ -59,12 +64,12 @@ void Renderer::drawChar(int x, int y, char ch) const {
 }
 
 // Clears a single cell by overwriting it with the empty character.
-void Renderer::clearCell(int x, int y) const {
+void Renderer::clearCell(Point cPos) const {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
 
     COORD pos;
-    pos.X = x;
-    pos.Y = y;
+    pos.X = cPos.x;
+    pos.Y = cPos.y;
 
     // Move the cursor and print the empty space
     SetConsoleCursorPosition(hCon, pos);

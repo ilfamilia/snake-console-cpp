@@ -37,14 +37,12 @@ int main()
 
     // Draw the initial snake position
     gameDisplay.drawChar(
-        mySnake.getPos().x,
-        mySnake.getPos().y,
+        mySnake.getPos(),
         PLAYER_CHAR
     );
 
     gameDisplay.drawChar(
-        gameFood.getPos().x,
-        gameFood.getPos().y,
+        gameFood.getPos(),
         FOOD_CHAR
     );
 
@@ -80,7 +78,7 @@ int main()
         if (gameBoard.isWall(newX, newY)) {
 
             // Clear the snake from its current position
-            gameDisplay.clearCell(pos.x, pos.y);
+            gameDisplay.clearCell(pos);
 
             // Reset the snake to the center of the board
             mySnake.resetPos(
@@ -90,11 +88,7 @@ int main()
 
             // Draw the snake at the reset position
             const Point centerPos = mySnake.getPos();
-            gameDisplay.drawChar(
-                centerPos.x,
-                centerPos.y,
-                PLAYER_CHAR
-            );
+            gameDisplay.drawChar(centerPos, PLAYER_CHAR);
 
             // Skip movement and wait for the next input
             continue;
@@ -111,14 +105,10 @@ int main()
         const Point curPos = mySnake.getPos();
 
         // Clear the previous snake position
-        gameDisplay.clearCell(oldPos.x, oldPos.y);
+        gameDisplay.clearCell(oldPos);
 
         // Draw the snake at its new position
-        gameDisplay.drawChar(
-            curPos.x,
-            curPos.y,
-            PLAYER_CHAR
-        );
+        gameDisplay.drawChar(curPos, PLAYER_CHAR);
 
         if(gameFood.isEaten(mySnake.getPos())){
             fPosX = distX(engine);
@@ -126,11 +116,7 @@ int main()
             
             gameFood.resetPos(fPosX, fPosY);
             
-            gameDisplay.drawChar(
-                gameFood.getPos().x,
-                gameFood.getPos().y,
-                FOOD_CHAR
-            );
+            gameDisplay.drawChar(gameFood.getPos(), FOOD_CHAR);
         }
     }
 

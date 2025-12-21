@@ -1,6 +1,8 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include "Point.h"
+
 // Forward declaration to avoid including Board.h in the header
 // and reduce compilation dependencies.
 class Board;
@@ -15,11 +17,11 @@ public:
 
     // Draws a single character at the given board coordinates.
     // Used to render the snake, food, or any other game element.
-    void drawChar(int x, int y, char ch) const;
+    void drawChar(Point chPos, char ch) const;
 
     // Clears a single cell at the given coordinates.
     // Typically used to erase the snake's previous position.
-    void clearCell(int x, int y) const;
+    void clearCell(Point cPos) const;
 
     // Hides the console cursor to improve visual appearance during gameplay.
     void hideCursor() const;
