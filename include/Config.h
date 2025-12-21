@@ -22,7 +22,7 @@ namespace Config {
     inline constexpr char PLAYER_CHAR = '@';
 
     // Character used to represent the food
-    inline constexpr char FOOD_CHAR = 'f';
+    inline constexpr char FOOD_CHAR = '*';
 }
 
 #endif // CONFIG_H
