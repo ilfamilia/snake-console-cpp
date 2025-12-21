@@ -119,6 +119,19 @@ int main()
             curPos.y,
             PLAYER_CHAR
         );
+
+        if(gameFood.isEaten(mySnake.getPos())){
+            fPosX = distX(engine);
+            fPosY = distY(engine);
+            
+            gameFood.resetPos(fPosX, fPosY);
+            
+            gameDisplay.drawChar(
+                gameFood.getPos().x,
+                gameFood.getPos().y,
+                FOOD_CHAR
+            );
+        }
     }
 
     // Restore console state (unreachable in current design)
