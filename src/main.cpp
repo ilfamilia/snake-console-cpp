@@ -5,18 +5,28 @@
 #include "Config.h"
 #include <conio.h>
 #include <cctype>
+#include <random>
 
 using namespace Config;
 
 int main()
 {
+    std::random_device rd;
+    std::mt19937 engine(rd());
+
+    std::uniform_int_distribution <> distX(1, BOARD_WIDTH - 2);
+    std::uniform_int_distribution <> distY(1, BOARD_HEIGHT - 2);
+
+    int fPosX = distX(engine);
+    int fPosY = distY(engine);
+
     // Create the game board using predefined dimensions
     Board gameBoard(BOARD_WIDTH, BOARD_HEIGHT);
 
     // Initialize the snake at the logical center of the board
     Snake mySnake(gameBoard.center().x, gameBoard.center().y);
 
-    Food gameFood(10, 8);
+    Food gameFood(fPosX, fPosY);
 
     // Renderer responsible for all console drawing
     Renderer gameDisplay;
