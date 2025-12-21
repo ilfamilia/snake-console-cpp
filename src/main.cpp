@@ -111,11 +111,14 @@ int main()
         gameDisplay.drawChar(curPos, PLAYER_CHAR);
 
         if(gameFood.isEaten(mySnake.getPos())){
-            fPosX = distX(engine);
-            fPosY = distY(engine);
-            
-            gameFood.resetPos(fPosX, fPosY);
-            
+            Point fPos;
+            do {
+                fPos.x = distX(engine);
+                fPos.y = distY(engine);
+            } while (fPos == mySnake.getPos());
+
+            gameFood.resetPos(fPos.x, fPos.y);
+
             gameDisplay.drawChar(gameFood.getPos(), FOOD_CHAR);
         }
     }
