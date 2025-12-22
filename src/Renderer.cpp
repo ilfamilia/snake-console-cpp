@@ -63,6 +63,15 @@ void Renderer::drawChar(Point chPos, char ch) const {
     std::cout << ch;
 }
 
+void Renderer::drawText(Point tPos, std::string s) const {
+    Point pos = tPos;
+    
+    for(int i = 0; i < s.length(); i++){
+        drawChar(pos, s[i]);
+        pos.x += 1;
+    }
+}
+
 // Clears a single cell by overwriting it with the empty character.
 void Renderer::clearCell(Point cPos) const {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);

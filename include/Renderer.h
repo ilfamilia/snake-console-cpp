@@ -2,6 +2,7 @@
 #define RENDERER_H
 
 #include "Point.h"
+#include <string>
 
 // Forward declaration to avoid including Board.h in the header
 // and reduce compilation dependencies.
@@ -18,6 +19,8 @@ public:
     // Draws a single character at the given board coordinates.
     // Used to render the snake, food, or any other game element.
     void drawChar(Point chPos, char ch) const;
+
+    void drawText(Point tPos, std::string s) const;
 
     // Clears a single cell at the given coordinates.
     // Typically used to erase the snake's previous position.
