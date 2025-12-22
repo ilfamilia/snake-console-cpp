@@ -10,6 +10,8 @@ namespace Config {
     inline constexpr int BOARD_WIDTH  = 30;
     inline constexpr int BOARD_HEIGHT = 15;
 
+    inline constexpr int UI_MARGIN = 3;
+
     // Characters used to render the board borders
     inline constexpr char CORNER_CHAR     = '+';
     inline constexpr char HORIZONTAL_CHAR = '-';

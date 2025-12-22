@@ -54,10 +54,10 @@ void Renderer::drawScore(int score) const {
     Point lPos;
     Point sPos;
     
-    lPos.x = Config::BOARD_WIDTH + 3;
+    lPos.x = Config::BOARD_WIDTH + Config::UI_MARGIN;
     lPos.y = 1;
 
-    sPos.x = Config::BOARD_WIDTH + 3;
+    sPos.x = Config::BOARD_WIDTH + Config::UI_MARGIN;
     sPos.y = 2;
 
     drawText(lPos, "SCORE:");
