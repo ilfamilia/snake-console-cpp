@@ -16,6 +16,8 @@ public:
     // Draws the complete game board, including its borders.
     void drawBoard(const Board& board) const;
 
+    void drawScore(int score) const;
+    
     // Draws a single character at the given board coordinates.
     // Used to render the snake, food, or any other game element.
     void drawChar(Point chPos, char ch) const;

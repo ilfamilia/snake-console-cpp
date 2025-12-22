@@ -50,6 +50,20 @@ void Renderer::drawBoard(const Board& board) const {
     }
 }
 
+void Renderer::drawScore(int score) const {
+    Point lPos;
+    Point sPos;
+    
+    lPos.x = Config::BOARD_WIDTH + 3;
+    lPos.y = 1;
+
+    sPos.x = Config::BOARD_WIDTH + 3;
+    sPos.y = 2;
+
+    drawText(lPos, "SCORE:");
+    drawText(sPos, std::to_string(score));
+}
+
 // Draws a single character at the specified console coordinates.
 void Renderer::drawChar(Point chPos, char ch) const {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);

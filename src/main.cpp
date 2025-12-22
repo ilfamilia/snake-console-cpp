@@ -20,6 +20,8 @@ int main()
     int fPosX = distX(engine);
     int fPosY = distY(engine);
 
+    int score = 0;
+    
     // Create the game board using predefined dimensions
     Board gameBoard(BOARD_WIDTH, BOARD_HEIGHT);
 
@@ -34,6 +36,8 @@ int main()
     // Prepare the console for gameplay
     gameDisplay.hideCursor();
     gameDisplay.drawBoard(gameBoard);
+
+    gameDisplay.drawScore(score);
 
     // Draw the initial snake position
     gameDisplay.drawChar(
@@ -110,16 +114,19 @@ int main()
         // Draw the snake at its new position
         gameDisplay.drawChar(curPos, PLAYER_CHAR);
 
-        if(gameFood.isEaten(mySnake.getPos())){
+        if(gameFood.isEaten(curPos)){
             Point fPos;
             do {
                 fPos.x = distX(engine);
                 fPos.y = distY(engine);
-            } while (fPos == mySnake.getPos());
+            } while (fPos == curPos);
 
             gameFood.resetPos(fPos.x, fPos.y);
 
             gameDisplay.drawChar(gameFood.getPos(), FOOD_CHAR);
+
+            score++;
+            gameDisplay.drawScore(score);
         }
     }
 
