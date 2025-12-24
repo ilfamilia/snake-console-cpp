@@ -2,11 +2,11 @@
 #define DIRECTION_H
 
 enum class Direction {
+    NONE,
     UP,
     DOWN,
     LEFT,
-    RIGHT,
-    NONE
+    RIGHT
 };
 
 inline Direction opposite(Direction dir){
