@@ -44,6 +44,9 @@ void Snake::setDirection(Direction dir){
 // Moves the snake one unit.
 // The previous position is stored before updating the current one.
 void Snake::move() {
+    if (currentDir_ == Direction::NONE)
+        return;
+
     oldPos_ = pos_;
     
     pos_ += delta();
