@@ -66,23 +66,18 @@ int main()
             continue;
         }
 
-        // Get the current snake position
-        const Point pos = mySnake.getPos();
+        if (key == 'w')      mySnake.setDirection(Direction::UP);
+        else if (key == 's') mySnake.setDirection(Direction::DOWN);
+        else if (key == 'a') mySnake.setDirection(Direction::LEFT);
+        else if (key == 'd') mySnake.setDirection(Direction::RIGHT);
 
-        // Predict the next position based on input
-        int newX = pos.x;
-        int newY = pos.y;
-
-        if (key == 'w')      newY--;
-        else if (key == 's') newY++;
-        else if (key == 'a') newX--;
-        else                 newX++;
+        Point next = mySnake.peekNextPos();
 
         // Check for collision with the board walls
-        if (gameBoard.isWall(newX, newY)) {
+        if (gameBoard.isWall(next.x, next.y)) {
 
             // Clear the snake from its current position
-            gameDisplay.clearCell(pos);
+            gameDisplay.clearCell(mySnake.getPos());
 
             // Reset the snake to the center of the board
             mySnake.resetPos(
@@ -98,11 +93,7 @@ int main()
             continue;
         }
 
-        // Apply the movement based on the valid input
-        if (key == 'w')      mySnake.moveUp();
-        else if (key == 's') mySnake.moveDown();
-        else if (key == 'a') mySnake.moveLeft();
-        else                 mySnake.moveRight();
+        mySnake.move();
 
         // Retrieve old and current positions for rendering
         const Point oldPos = mySnake.getOldPos();

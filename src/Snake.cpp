@@ -7,6 +7,7 @@ Snake::Snake(int posX, int posY) {
     pos_.x = posX;
     pos_.y = posY;
     oldPos_ = pos_;
+    currentDir_ = Direction::NONE;
 }
 
 // Resets the snake position to the given coordinates.
@@ -15,6 +16,7 @@ void Snake::resetPos(int posX, int posY) {
     pos_.x = posX;
     pos_.y = posY;
     oldPos_ = pos_;
+    currentDir_ = Direction::NONE;
 }
 
 // Returns the current position of the snake.
@@ -28,30 +30,39 @@ Point Snake::getOldPos() const {
     return oldPos_;
 }
 
-// Moves the snake one unit upward.
-// The previous position is stored before updating the current one.
-void Snake::moveUp() {
-    oldPos_ = pos_;
-    pos_.y--;
+Point Snake::peekNextPos() const {
+    return pos_ + delta();
 }
 
-// Moves the snake one unit downward.
-// The previous position is stored before updating the current one.
-void Snake::moveDown() {
-    oldPos_ = pos_;
-    pos_.y++;
+void Snake::setDirection(Direction dir){
+    if (dir == opposite(currentDir_))
+        return;
+
+    currentDir_ = dir;
 }
 
-// Moves the snake one unit to the left.
+// Moves the snake one unit.
 // The previous position is stored before updating the current one.
-void Snake::moveLeft() {
+void Snake::move() {
     oldPos_ = pos_;
-    pos_.x--;
+    
+    pos_ += delta();
 }
 
-// Moves the snake one unit to the right.
-// The previous position is stored before updating the current one.
-void Snake::moveRight() {
-    oldPos_ = pos_;
-    pos_.x++;
+Point Snake::delta() const {
+    Point dPos = {0, 0};
+
+    if (currentDir_ == Direction::NONE)
+        return dPos;
+
+    if (currentDir_ == Direction::UP) 
+        dPos = {0, -1};
+    else if (currentDir_ == Direction::DOWN)
+        dPos = {0, 1};
+    else if (currentDir_ == Direction::LEFT)
+        dPos = {-1, 0};
+    else if (currentDir_ == Direction::RIGHT) 
+        dPos = {1, 0};
+    
+    return dPos;
 }

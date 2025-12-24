@@ -2,6 +2,7 @@
 #define SNAKE_H
 
 #include "Point.h"
+#include "Direction.h"
 
 // Represents the snake entity in the game.
 // At this stage, the snake is modeled as a single segment with
@@ -22,17 +23,12 @@ public:
     // Useful for clearing the old character from the screen.
     Point getOldPos() const;
 
-    // Moves the snake one cell upward.
-    void moveUp();
+    Point peekNextPos() const;
 
-    // Moves the snake one cell downward.
-    void moveDown();
+    void setDirection(Direction dir);
 
-    // Moves the snake one cell to the left.
-    void moveLeft();
-
-    // Moves the snake one cell to the right.
-    void moveRight();
+    // Moves the snake one cell
+    void move();
 
 private:
     // Current position of the snake.
@@ -40,6 +36,10 @@ private:
 
     // Previous position of the snake (before the last move).
     Point oldPos_;
+
+    Direction currentDir_;
+
+    Point delta() const;
 };
 
 #endif // SNAKE_H
