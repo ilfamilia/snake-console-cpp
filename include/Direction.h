@@ -9,6 +9,7 @@ enum class Direction {
     RIGHT
 };
 
+// Returns the opposite direction (used to prevent 180-degree turns)
 inline Direction opposite(Direction dir){
     if (dir == Direction::UP)
         return Direction::DOWN;

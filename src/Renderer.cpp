@@ -4,11 +4,9 @@
 #include <iostream>
 #include <windows.h>
 
-// Draws the full game board to the console.
-// This includes clearing the screen and rendering the borders
-// based on the board dimensions.
 void Renderer::drawBoard(const Board& board) const {
-    // Clear the console before drawing the board
+
+    // Clear the console before redrawing the board
     system("cls");
 
     const int w = board.getWidth();
@@ -18,27 +16,22 @@ void Renderer::drawBoard(const Board& board) const {
     pos.x = 0;
     pos.y = 0;
 
-    // Iterate over every cell in the board grid
     for (int y = 0; y < h; ++y) {
         pos.y = y;
         for (int x = 0; x < w; ++x) {
             pos.x = x;
-            // Skip non-wall cells to avoid unnecessary drawing
             if (!board.isWall(pos.x, pos.y)) {
-                // drawChar(x, y, Config::EMPTY_CHAR);
                 continue;
             }
 
-            // Determine which side of the board the cell belongs to
             const bool left   = (pos.x == 0);
             const bool right  = (pos.x == w - 1);
             const bool top    = (pos.y == 0);
             const bool bottom = (pos.y == h - 1);
 
-            // A corner is where a horizontal and vertical wall meet
             const bool isCorner = (left || right) && (top || bottom);
 
-            // Select the appropriate character based on the wall type
+            // Draw board boundaries (corners, horizontal and vertical edges)
             if (isCorner) {
                 drawChar(pos, Config::CORNER_CHAR);
             } else if (top || bottom) {
@@ -54,6 +47,7 @@ void Renderer::drawScore(int score) const {
     Point lPos;
     Point sPos;
     
+    // UI is drawn to the right of the board
     lPos.x = Config::BOARD_WIDTH + Config::UI_MARGIN;
     lPos.y = 1;
 
@@ -64,7 +58,6 @@ void Renderer::drawScore(int score) const {
     drawText(sPos, std::to_string(score));
 }
 
-// Draws a single character at the specified console coordinates.
 void Renderer::drawChar(Point chPos, char ch) const {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -72,7 +65,6 @@ void Renderer::drawChar(Point chPos, char ch) const {
     pos.X = chPos.x;
     pos.Y = chPos.y;
 
-    // Move the cursor and print the character
     SetConsoleCursorPosition(hCon, pos);
     std::cout << ch;
 }
@@ -80,13 +72,13 @@ void Renderer::drawChar(Point chPos, char ch) const {
 void Renderer::drawText(Point tPos, std::string s) const {
     Point pos = tPos;
     
+    // Draw text horizontally starting at tPos
     for(int i = 0; i < s.length(); i++){
         drawChar(pos, s[i]);
         pos.x += 1;
     }
 }
 
-// Clears a single cell by overwriting it with the empty character.
 void Renderer::clearCell(Point cPos) const {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -94,12 +86,10 @@ void Renderer::clearCell(Point cPos) const {
     pos.X = cPos.x;
     pos.Y = cPos.y;
 
-    // Move the cursor and print the empty space
     SetConsoleCursorPosition(hCon, pos);
     std::cout << Config::EMPTY_CHAR;
 }
 
-// Hides the console cursor to improve the visual experience during gameplay.
 void Renderer::hideCursor() const {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cursorInfo;
@@ -109,7 +99,6 @@ void Renderer::hideCursor() const {
     SetConsoleCursorInfo(hCon, &cursorInfo);
 }
 
-// Shows the console cursor again (useful when the game ends).
 void Renderer::showCursor() const {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cursorInfo;
@@ -119,9 +108,6 @@ void Renderer::showCursor() const {
     SetConsoleCursorInfo(hCon, &cursorInfo);
 }
 
-// Moves the console cursor to a position below the board.
-// This allows text output (score, messages) without interfering
-// with the game area.
 void Renderer::setCursorBelowBoard(const Board& board) const {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
 

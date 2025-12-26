@@ -16,14 +16,14 @@ using namespace Config;
 
 int main()
 {
-    // Ramdom tools
+    // Random tools
     std::random_device rd;
     std::mt19937 engine(rd());
 
     std::uniform_int_distribution<> distX(1, BOARD_WIDTH - 2);
     std::uniform_int_distribution<> distY(1, BOARD_HEIGHT - 2);
 
-    // Clock tools
+    // Game tick timing (controls snake movement speed)
     using clock = std::chrono::steady_clock;
     auto lastTick = clock::now();
     const auto tick = std::chrono::milliseconds(120); 
@@ -33,6 +33,7 @@ int main()
     Board gameBoard(BOARD_WIDTH, BOARD_HEIGHT);
     Snake mySnake(gameBoard.center().x, gameBoard.center().y);
 
+    // Generate food position ensuring it does not overlap the snake
     Point fPos;
     do {
         fPos.x = distX(engine);
@@ -51,6 +52,7 @@ int main()
 
     while (true) {
 
+        // Handle direction changes from keyboard input (WASD)
         if (_kbhit()) {
             const unsigned char raw = static_cast<unsigned char>(_getch());
             const char key = static_cast<char>(std::tolower(raw));
@@ -69,8 +71,11 @@ int main()
         lastTick = now;
 
         const Point curPosBefore = mySnake.getPos();
+
+        // Check next position before moving to detect wall collision
         const Point next = mySnake.peekNextPos();
 
+        // Restart the game when the wall is hit by the snake
         if (gameBoard.isWall(next.x, next.y)) {
             gameDisplay.clearCell(curPosBefore);
 

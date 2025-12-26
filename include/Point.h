@@ -1,6 +1,7 @@
 #ifndef POINT_H
 #define POINT_H
 
+// Simple 2D point used for board and entity positions
 struct Point
 {
     int x;

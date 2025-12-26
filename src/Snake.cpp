@@ -1,8 +1,5 @@
 #include "Snake.h"
 
-// Initializes the snake at the given starting position.
-// The previous position is set to the same value to avoid
-// invalid data on the first frame.
 Snake::Snake(int posX, int posY) {
     pos_.x = posX;
     pos_.y = posY;
@@ -10,8 +7,6 @@ Snake::Snake(int posX, int posY) {
     currentDir_ = Direction::NONE;
 }
 
-// Resets the snake position to the given coordinates.
-// This is typically used when restarting the game.
 void Snake::resetPos(int posX, int posY) {
     pos_.x = posX;
     pos_.y = posY;
@@ -19,13 +14,10 @@ void Snake::resetPos(int posX, int posY) {
     currentDir_ = Direction::NONE;
 }
 
-// Returns the current position of the snake.
 Point Snake::getPos() const {
     return pos_;
 }
 
-// Returns the previous position of the snake.
-// Useful for erasing the snake's last position from the screen.
 Point Snake::getOldPos() const {
     return oldPos_;
 }
@@ -41,8 +33,6 @@ void Snake::setDirection(Direction dir){
     currentDir_ = dir;
 }
 
-// Moves the snake one unit.
-// The previous position is stored before updating the current one.
 void Snake::move() {
     if (currentDir_ == Direction::NONE)
         return;

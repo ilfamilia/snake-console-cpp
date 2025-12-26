@@ -3,6 +3,7 @@
 
 #include "Point.h"
 
+// Represents the food entity placed on the game board
 class Food {
 public:   
     Food(int posX, int posY);
@@ -11,6 +12,7 @@ public:
 
     Point getPos() const;
 
+    // Returns true if the snake occupies the food position
     bool isEaten(Point pos) const;
 
 private:
