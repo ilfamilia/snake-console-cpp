@@ -10,6 +10,10 @@ struct Point
         return (x == other.x && y == other.y);
     }
 
+    bool operator!=(const Point& other) const {
+        return !(*this == other);
+    }
+
     Point operator+(const Point& other) const {
         Point result = *this;
         return result += other;
