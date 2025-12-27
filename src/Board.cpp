@@ -11,14 +11,14 @@ int Board::getHeight() const {
     return height_;
 }
 
-bool Board::isWall(int x, int y) const {
-    return (x == 0 || x == width_ - 1 ||
-            y == 0 || y == height_ - 1);
+bool Board::isWall(Point pos) const {
+    return (pos.x == 0 || pos.x == width_ - 1 ||
+            pos.y == 0 || pos.y == height_ - 1);
 }
 
-bool Board::isInsidePlayable(int x, int y) const {
-    return (x >= 1 && x <= width_ - 2 &&
-            y >= 1 && y <= height_ - 2);
+bool Board::isInsidePlayable(Point pos) const {
+    return (pos.x >= 1 && pos.x <= width_ - 2 &&
+            pos.y >= 1 && pos.y <= height_ - 2);
 }
 
 Point Board::center() const {

@@ -71,7 +71,7 @@ int main()
         const Point next = mySnake.peekNextPos();
 
         // Wall collision: clear the entire snake body from screen, reset snake
-        if (gameBoard.isWall(next.x, next.y)) {
+        if (gameBoard.isWall(next)) {
 
             gameDisplay.clearScore(score);
 

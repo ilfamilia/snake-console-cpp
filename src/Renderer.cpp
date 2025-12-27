@@ -20,7 +20,7 @@ void Renderer::drawBoard(const Board& board) const {
         pos.y = y;
         for (int x = 0; x < w; ++x) {
             pos.x = x;
-            if (!board.isWall(pos.x, pos.y)) {
+            if (!board.isWall(pos)) {
                 continue;
             }
 
