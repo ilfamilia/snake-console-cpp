@@ -23,7 +23,7 @@ int main()
     // Game tick timing (controls snake movement speed)
     using clock = std::chrono::steady_clock;
     auto lastTick = clock::now();
-    const auto tick = std::chrono::milliseconds(120);
+    const auto tick = std::chrono::milliseconds(GAME_TICK_MS);
 
     int score = 0;
 

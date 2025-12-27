@@ -4,6 +4,8 @@
 // Global configuration constants for game layout and rendering
 namespace Config {
 
+    inline constexpr int GAME_TICK_MS = 120;
+
     inline constexpr int BOARD_WIDTH  = 30;
     inline constexpr int BOARD_HEIGHT = 15;
 
