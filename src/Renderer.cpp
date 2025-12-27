@@ -58,6 +58,23 @@ void Renderer::drawScore(int score) const {
     drawText(sPos, std::to_string(score));
 }
 
+void Renderer::clearScore(int score) const {
+    Point pos;
+    std::string spaces;
+
+    pos.x = Config::BOARD_WIDTH + Config::UI_MARGIN;
+    pos.y = 2;
+
+    spaces = "";
+
+    while(score > 0) {
+        spaces += " ";
+        score = score / 10;
+    }
+
+    drawText(pos, spaces);
+}
+
 void Renderer::drawChar(Point chPos, char ch) const {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
 

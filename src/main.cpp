@@ -73,6 +73,12 @@ int main()
         // Wall collision: clear the entire snake body from screen, reset snake
         if (gameBoard.isWall(next.x, next.y)) {
 
+            gameDisplay.clearScore(score);
+
+            score = 0;
+
+            gameDisplay.drawScore(score);
+
             // Clear all snake segments currently on screen
             for (const Point& p : mySnake.getBody()) {
                 gameDisplay.clearCell(p);
