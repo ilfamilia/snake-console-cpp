@@ -3,8 +3,6 @@
 #include "Food.h"
 #include "Renderer.h"
 #include "Config.h"
-#include "Direction.h"
-#include "Point.h"
 
 #include <conio.h>
 #include <cctype>
@@ -19,26 +17,25 @@ int main()
     // Random tools
     std::random_device rd;
     std::mt19937 engine(rd());
-
     std::uniform_int_distribution<> distX(1, BOARD_WIDTH - 2);
     std::uniform_int_distribution<> distY(1, BOARD_HEIGHT - 2);
 
     // Game tick timing (controls snake movement speed)
     using clock = std::chrono::steady_clock;
     auto lastTick = clock::now();
-    const auto tick = std::chrono::milliseconds(120); 
+    const auto tick = std::chrono::milliseconds(120);
 
     int score = 0;
 
     Board gameBoard(BOARD_WIDTH, BOARD_HEIGHT);
     Snake mySnake(gameBoard.center().x, gameBoard.center().y);
 
-    // Generate food position ensuring it does not overlap the snake
+    // Generate food position ensuring it does not overlap the snake head
     Point fPos;
     do {
         fPos.x = distX(engine);
         fPos.y = distY(engine);
-    } while (fPos == mySnake.getPos());
+    } while (fPos == mySnake.getHeadPos());
 
     Food gameFood(fPos.x, fPos.y);
 
@@ -47,7 +44,7 @@ int main()
     gameDisplay.drawBoard(gameBoard);
 
     gameDisplay.drawScore(score);
-    gameDisplay.drawChar(mySnake.getPos(), PLAYER_CHAR);
+    gameDisplay.drawChar(mySnake.getHeadPos(), PLAYER_CHAR);
     gameDisplay.drawChar(gameFood.getPos(), FOOD_CHAR);
 
     while (true) {
@@ -70,25 +67,29 @@ int main()
         }
         lastTick = now;
 
-        const Point curPosBefore = mySnake.getPos();
-
-        // Check next position before moving to detect wall collision
+        // Predict next position before moving (collision check)
         const Point next = mySnake.peekNextPos();
 
-        // Restart the game when the wall is hit by the snake
+        // Wall collision: clear the entire snake body from screen, reset snake
         if (gameBoard.isWall(next.x, next.y)) {
-            gameDisplay.clearCell(curPosBefore);
+
+            // Clear all snake segments currently on screen
+            for (const Point& p : mySnake.getBody()) {
+                gameDisplay.clearCell(p);
+            }
 
             mySnake.resetPos(gameBoard.center().x, gameBoard.center().y);
-            const Point centerPos = mySnake.getPos();
-            gameDisplay.drawChar(centerPos, PLAYER_CHAR);
 
-            if (gameFood.getPos() == centerPos) {
+            const Point head = mySnake.getHeadPos();
+            gameDisplay.drawChar(head, PLAYER_CHAR);
+
+            // Ensure food isn't under the snake after reset
+            if (gameFood.getPos() == head) {
                 Point newFood;
                 do {
                     newFood.x = distX(engine);
                     newFood.y = distY(engine);
-                } while (newFood == centerPos);
+                } while (newFood == head);
 
                 gameFood.resetPos(newFood.x, newFood.y);
                 gameDisplay.drawChar(gameFood.getPos(), FOOD_CHAR);
@@ -97,22 +98,30 @@ int main()
             continue;
         }
 
+        // Move snake
+        const Point oldHead = mySnake.getHeadPos();
         mySnake.move();
+        const Point newHead = mySnake.getHeadPos();
 
-        const Point oldPos = mySnake.getOldPos();
-        const Point curPos = mySnake.getPos();
+        if (newHead != oldHead) {
+            gameDisplay.drawChar(newHead, PLAYER_CHAR);
 
-        if (oldPos != curPos) {
-            gameDisplay.clearCell(oldPos);
-            gameDisplay.drawChar(curPos, PLAYER_CHAR);
+            // Clear tail only if a tail segment was actually removed (not growing)
+            if (mySnake.didRemoveTail()) {
+                gameDisplay.clearCell(mySnake.getRemovedTailPos());
+            }
         }
 
-        if (gameFood.isEaten(curPos)) {
+        // Food collision 
+        if (gameFood.isEaten(newHead)) {
+
+            mySnake.grow(1);
+
             Point newFood;
             do {
                 newFood.x = distX(engine);
                 newFood.y = distY(engine);
-            } while (newFood == curPos);
+            } while (newFood == newHead);
 
             gameFood.resetPos(newFood.x, newFood.y);
             gameDisplay.drawChar(gameFood.getPos(), FOOD_CHAR);

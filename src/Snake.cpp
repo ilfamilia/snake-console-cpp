@@ -1,61 +1,94 @@
 #include "Snake.h"
 
 Snake::Snake(int posX, int posY) {
-    pos_.x = posX;
-    pos_.y = posY;
-    oldPos_ = pos_;
-    currentDir_ = Direction::NONE;
+    resetPos(posX, posY);
 }
 
 void Snake::resetPos(int posX, int posY) {
-    pos_.x = posX;
-    pos_.y = posY;
-    oldPos_ = pos_;
+    body_.clear();
+    body_.push_back(Point{posX, posY});
+
+    growPending_ = 0;
     currentDir_ = Direction::NONE;
+
+    removedTailValid_ = false;
+    removedTail_ = Point{0, 0};
 }
 
-Point Snake::getPos() const {
-    return pos_;
+Point Snake::getHeadPos() const {
+    return body_.front();
 }
 
-Point Snake::getOldPos() const {
-    return oldPos_;
+Point Snake::getTailPos() const {
+    return body_.back();
+}
+
+const std::deque<Point>& Snake::getBody() const {
+    return body_;
+}
+
+void Snake::grow(int amount) {
+    if (amount > 0) {
+        growPending_ += amount;
+    }
 }
 
 Point Snake::peekNextPos() const {
-    return pos_ + delta();
+    return getHeadPos() + delta();
 }
 
-void Snake::setDirection(Direction dir){
-    if (dir == opposite(currentDir_))
+void Snake::setDirection(Direction dir) {
+    if (dir == Direction::NONE) {
         return;
+    }
+
+    if (currentDir_ != Direction::NONE && dir == opposite(currentDir_)) {
+        return;
+    }
 
     currentDir_ = dir;
 }
 
 void Snake::move() {
-    if (currentDir_ == Direction::NONE)
-        return;
+    removedTailValid_ = false;
 
-    oldPos_ = pos_;
-    
-    pos_ += delta();
+    if (currentDir_ == Direction::NONE) {
+        return;
+    }
+
+    const Point nextHead = peekNextPos();
+    body_.push_front(nextHead);
+
+    if (growPending_ > 0) {
+        --growPending_;
+        return;
+    }
+
+    removedTail_ = body_.back();
+    removedTailValid_ = true;
+    body_.pop_back();
+}
+
+bool Snake::didRemoveTail() const {
+    return removedTailValid_;
+}
+
+Point Snake::getRemovedTailPos() const {
+    return removedTail_;
 }
 
 Point Snake::delta() const {
-    Point dPos = {0, 0};
-
-    if (currentDir_ == Direction::NONE)
-        return dPos;
-
-    if (currentDir_ == Direction::UP) 
-        dPos = {0, -1};
-    else if (currentDir_ == Direction::DOWN)
-        dPos = {0, 1};
-    else if (currentDir_ == Direction::LEFT)
-        dPos = {-1, 0};
-    else if (currentDir_ == Direction::RIGHT) 
-        dPos = {1, 0};
-    
-    return dPos;
+    if (currentDir_ == Direction::UP) {
+        return Point{0, -1};
+    }
+    if (currentDir_ == Direction::DOWN) {
+        return Point{0, 1};
+    }
+    if (currentDir_ == Direction::LEFT) {
+        return Point{-1, 0};
+    }
+    if (currentDir_ == Direction::RIGHT) {
+        return Point{1, 0};
+    }
+    return Point{0, 0}; 
 }

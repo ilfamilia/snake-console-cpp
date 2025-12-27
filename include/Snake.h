@@ -3,35 +3,50 @@
 
 #include "Point.h"
 #include "Direction.h"
+#include <deque>
 
-// Represents the snake entity and its movement logic
+// Represents the snake entity and its movement logic.
 class Snake {
 public:
     Snake(int posX, int posY);
 
-    // Resets the snake position and clears movement state
+    // Resets the snake position and clears movement/growth state.
     void resetPos(int posX, int posY);
 
-    Point getPos() const;
+    Point getHeadPos() const;
 
-    // Returns the previous position before the last move
-    Point getOldPos() const;
+    Point getTailPos() const;
 
-    // Computes the next position based on current direction without moving
+    // Access to the whole body (for collision checks, etc).
+    const std::deque<Point>& getBody() const;
+
+    // Growth request (consumed on future moves).
+    void grow(int amount = 1);
+
+    // Computes the next head position without moving.
     Point peekNextPos() const;
 
-    // Updates the current movement direction
+    // Updates the movement direction (blocks instant 180°).
     void setDirection(Direction dir);
 
-    // Moves the snake one step in the current direction (ignored if NONE)
+    // Moves the snake one step in the current direction (ignored if NONE).
     void move();
 
-private:
-    Point pos_;
-    Point oldPos_;
-    Direction currentDir_;
+    bool didRemoveTail() const;
 
-    // Converts the current direction into a movement delta
+    Point getRemovedTailPos() const;
+
+private:
+    std::deque<Point> body_;
+
+    // Tail removed on the last move (only when not growing).
+    Point removedTail_{0, 0};
+    bool removedTailValid_ = false;
+
+    Direction currentDir_ = Direction::NONE;
+    int growPending_ = 0;
+
+    // Converts the current direction into a movement delta.
     Point delta() const;
 };
 
