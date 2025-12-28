@@ -69,6 +69,19 @@ void Snake::move() {
     body_.pop_back();
 }
 
+bool Snake::hasSelfCollision() const {
+    
+    const auto& body = getBody();
+    const Point& head = body.front();
+    
+    for (std::size_t i = 1; i < body.size(); ++i){
+        if (head == body.at(i)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Snake::didRemoveTail() const {
     return removedTailValid_;
 }

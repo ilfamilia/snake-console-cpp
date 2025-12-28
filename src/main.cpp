@@ -70,8 +70,8 @@ int main()
         // Predict next position before moving (collision check)
         const Point next = mySnake.peekNextPos();
 
-        // Wall collision: clear the entire snake body from screen, reset snake
-        if (gameBoard.isWall(next)) {
+        // Collisions: clear the entire snake body from screen, reset snake
+        if (gameBoard.isWall(next) || mySnake.hasSelfCollision()) {
 
             gameDisplay.clearScore(score);
 

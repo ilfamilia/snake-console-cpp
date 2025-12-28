@@ -32,6 +32,8 @@ public:
     // Moves the snake one step in the current direction (ignored if NONE).
     void move();
 
+    bool hasSelfCollision() const;
+
     bool didRemoveTail() const;
 
     Point getRemovedTailPos() const;
