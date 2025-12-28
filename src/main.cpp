@@ -124,10 +124,19 @@ int main()
             mySnake.grow(1);
 
             Point newFood;
+            bool invalid;
             do {
                 newFood.x = distX(engine);
                 newFood.y = distY(engine);
-            } while (newFood == newHead);
+
+                invalid = false;
+                for (const Point& p : mySnake.getBody()){
+                    if (newFood == p){
+                        invalid = true;
+                        break;
+                    }
+                }
+            } while (invalid);
 
             gameFood.resetPos(newFood.x, newFood.y);
             gameDisplay.drawChar(gameFood.getPos(), FOOD_CHAR);
