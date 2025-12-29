@@ -47,6 +47,9 @@ int main()
     gameDisplay.drawChar(mySnake.getHeadPos(), PLAYER_CHAR);
     gameDisplay.drawChar(gameFood.getPos(), FOOD_CHAR);
 
+    Direction pendingDir = Direction::NONE;
+    bool hasPendingDir = false;
+
     while (true) {
 
         // Handle direction changes from keyboard input (WASD)
@@ -54,10 +57,10 @@ int main()
             const unsigned char raw = static_cast<unsigned char>(_getch());
             const char key = static_cast<char>(std::tolower(raw));
 
-            if (key == 'w')      mySnake.setDirection(Direction::UP);
-            else if (key == 's') mySnake.setDirection(Direction::DOWN);
-            else if (key == 'a') mySnake.setDirection(Direction::LEFT);
-            else if (key == 'd') mySnake.setDirection(Direction::RIGHT);
+            if (key == 'w')      {pendingDir = Direction::UP;   hasPendingDir = true;}
+            else if (key == 's') {pendingDir = Direction::DOWN; hasPendingDir = true;}
+            else if (key == 'a') {pendingDir = Direction::LEFT; hasPendingDir = true;}
+            else if (key == 'd') {pendingDir = Direction::RIGHT; hasPendingDir = true;}
         }
 
         const auto now = clock::now();
@@ -66,6 +69,11 @@ int main()
             continue;
         }
         lastTick = now;
+
+        if (hasPendingDir) {
+            mySnake.setDirection(pendingDir);
+            hasPendingDir = false;
+        }
 
         // Predict next position before moving (collision check)
         const Point next = mySnake.peekNextPos();
