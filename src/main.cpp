@@ -81,35 +81,38 @@ int main()
         // Collisions: clear the entire snake body from screen, reset snake
         if (gameBoard.isWall(next) || mySnake.hasSelfCollision()) {
 
-            gameDisplay.clearScore(score);
+            // gameDisplay.clearScore(score);
 
-            score = 0;
+           // score = 0;
 
-            gameDisplay.drawScore(score);
+           // gameDisplay.drawScore(score);
 
             // Clear all snake segments currently on screen
             for (const Point& p : mySnake.getBody()) {
                 gameDisplay.clearCell(p);
             }
 
-            mySnake.resetPos(gameBoard.center().x, gameBoard.center().y);
+            // mySnake.resetPos(gameBoard.center().x, gameBoard.center().y);
 
-            const Point head = mySnake.getHeadPos();
-            gameDisplay.drawChar(head, PLAYER_CHAR);
+            // const Point head = mySnake.getHeadPos();
+           // gameDisplay.drawChar(head, PLAYER_CHAR);
 
             // Ensure food isn't under the snake after reset
-            if (gameFood.getPos() == head) {
-                Point newFood;
-                do {
-                    newFood.x = distX(engine);
-                    newFood.y = distY(engine);
-                } while (newFood == head);
+            // if (gameFood.getPos() == head) {
+            //     Point newFood;
+            //     do {
+            //         newFood.x = distX(engine);
+            //         newFood.y = distY(engine);
+            //     } while (newFood == head);
 
-                gameFood.resetPos(newFood.x, newFood.y);
-                gameDisplay.drawChar(gameFood.getPos(), FOOD_CHAR);
-            }
+            //     gameFood.resetPos(newFood.x, newFood.y);
+            //     gameDisplay.drawChar(gameFood.getPos(), FOOD_CHAR);
+            // }
 
-            continue;
+            gameDisplay.clearCell(gameFood.getPos());
+
+            gameDisplay.drawGameOver(score);
+            break;
         }
 
         // Move snake

@@ -75,6 +75,21 @@ void Renderer::clearScore(int score) const {
     drawText(pos, spaces);
 }
 
+void Renderer::drawGameOver(int score) const {
+    std::string gOverMessage = "GAME OVER";
+    std::string scoreMessage = "SCORE: " + std::to_string(score);
+
+    int gOverHalf = gOverMessage.length() / 2;
+    int scHalf = scoreMessage.length() / 2;
+
+    Point centerPos {Config::BOARD_WIDTH / 2, Config::BOARD_HEIGHT / 2};
+    Point gOverPos {(centerPos.x - gOverHalf), centerPos.y};
+    Point scPos {(centerPos.x - scHalf), (centerPos.y + 1)};
+
+    drawText(gOverPos, gOverMessage);
+    drawText(scPos, scoreMessage);
+}
+
 void Renderer::drawChar(Point chPos, char ch) const {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);
 

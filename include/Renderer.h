@@ -15,6 +15,8 @@ public:
 
     void clearScore(int score) const;
 
+    void drawGameOver(int score) const;
+
     void drawChar(Point chPos, char ch) const;
 
     // Draws a text string starting at the given position
