@@ -5,10 +5,11 @@ A simple Snake game implemented in C++ using console rendering.
 ## Features
 - Continuous snake movement
 - Direction control using WASD
-- Random food spawning
-- Food respawns after being eaten
+- Snake grows when eating food
+- Random food spawning (never spawns on the snake)
 - Score tracking displayed on screen
-- Collision detection with walls
+- Collision detection (walls and self-collision)
+- Game over message that stops the game
 - Clean console rendering with separated UI
 
 ## Controls
